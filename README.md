@@ -1,5 +1,3 @@
-# final727
-"Assessing the Mental Health Consequences of the 2021 Military Coup in Burma"
 ---
 title: "Assessing the Mental Health Consequences of the 2021 Military Coup in Burma"
 subtitle: "Fundamentals of Computing and Data Display"
@@ -9,32 +7,6 @@ output:
   pdf_document:
     toc: yes
     df_print: kable
-references:
-- id: KreuterBarkay2020
-  title: Tidy Data
-  author:
-  - family: Wickham
-    given: Hadley
-  container-title: Journal of Statistical Software
-  volume: 59
-  issue: 10
-  page: 1-23
-  type: article-journal
-  issued:
-    year: 2014
-- id: Baumer2017
-  title: Modern Data Science with R
-  author:
-  - family: Baumer
-    given: Benjamin S.
-  - family: Kaplan
-    given: Daniel T.
-  - family: Horton
-    given: Nicholas J.
-  type: book
-  publisher: Chapman \& Hall/CRC Press.
-  issued:
-    year: 2017
 ---
 This project utilized the following libraries:
 
@@ -75,9 +47,9 @@ We address two main research questions in this paper:
   
 ## Gathering Survey Data
 
-We fielded an online Qualtrics survey among Burmese adult population between October 7, 2021 - October 14, 2021 for a total of 8 consecutive days using Facebook platform for sampling. Specifically, we ran Facebook advertisements prepared in Burmese targeting 20 million Facebook users in Burma aged 18 and above. The Facebook advertisements appeared on top of a user’s Facebook page in their news feed. A mouse click on the advertisement led a Facebook user to our online survey website where respondents provided consent and completed the online survey in a secured manner. The Facebook sample was randomly chosen by Facebook’s built-in algorithms. A total of 1.33 million active Facebook users in Burma aged 18 and above saw our advertisements at least once between October 7, 2021 - October 14, 2021. Of those who saw the Facebook advertisements at least once during this time period, 31,015 clicked the link to our online survey. Of those who clicked the link, 7,720 completed the online survey for a completion rate of 25%. The Facebook platform has been recently used for collecting population data during public health emergencies like COVID-19 (@KreuterBarkay2020; @SalomonReinhart2021). We found the use of Facebook platform to get access to the population to be extremely useful during political upheavals like those currently unfolding in Burma where timely population data are urgently needed for swift humanitarian responses and where in-person interviews are not possible due to security, operational, logistical, and cost reasons. Our online survey covered numerous topics including demographics, mental health, access to basic healthcare, COVID-19, employment, food insecurity, social safety net, trust in the banking system, sources of information used to learn about the crisis, and trust in those information sources. The online survey took about 16 minutes to complete. Respondents completed the online survey using their tablets, smartphones, laptops, or PCs, and were compensated MMK 2,000 each (about 1.12 US$) for their time participating in the study and completing the survey. 
+We fielded an online Qualtrics survey among Burmese adult population between October 7, 2021 - October 14, 2021 for a total of 8 consecutive days using Facebook platform for sampling. Specifically, we ran Facebook advertisements prepared in Burmese targeting 20 million Facebook users in Burma aged 18 and above. The Facebook advertisements appeared on top of a user’s Facebook page in their news feed. A mouse click on the advertisement led a Facebook user to our online survey website where respondents provided consent and completed the online survey in a secured manner. The Facebook sample was randomly chosen by Facebook’s built-in algorithms. A total of 1.33 million active Facebook users in Burma aged 18 and above saw our advertisements at least once between October 7, 2021 - October 14, 2021. Of those who saw the Facebook advertisements at least once during this time period, 31,015 clicked the link to our online survey. Of those who clicked the link, 7,720 completed the online survey for a completion rate of 25%. The Facebook platform has been recently used for collecting population data during public health emergencies like COVID-19 (Kreuter, Barkay 2020; Salomon, Reinhart, 2021). We found the use of Facebook platform to get access to the population to be extremely useful during political upheavals like those currently unfolding in Burma where timely population data are urgently needed for swift humanitarian responses and where in-person interviews are not possible due to security, operational, logistical, and cost reasons. Our online survey covered numerous topics including demographics, mental health, access to basic healthcare, COVID-19, employment, food insecurity, social safety net, trust in the banking system, sources of information used to learn about the crisis, and trust in those information sources. The online survey took about 16 minutes to complete. Respondents completed the online survey using their tablets, smartphones, laptops, or PCs, and were compensated MMK 2,000 each (about 1.12 US$) for their time participating in the study and completing the survey. 
 
-We measured the mental health outcome using the Patient Health Questionnaire-4 (PHQ4). This brief four-question survey was developed by @Kroenke2009 and has been established by @Lowe2010 as a valid and reliable measure of anxiety (prevalence of feeling “nervous, anxious, or on edge” and not being able to “stop or control worrying”) and depression (prevalence of feeling “down, depressed, or hopeless” and “little interest or pleasure in doing things”) over the past fourteen days. The response scale for each of the items are “not at all”, “several days”, “more than half the days”, and “nearly every day”. The scores for each of the four items are totaled to analyze overall mental health outcome, while the two conditions (depression, anxiety) can be summed and scored separately to analyze the severity of each condition. We also asked respondents to self-evaluate their overall mental health on a 5-point scale (“Excellent”, “Very Good”, “Good”, “Fair”, “Poor”). We conducted all of our statistical analyses in Stata.
+We measured the mental health outcome using the Patient Health Questionnaire-4 (PHQ4). This brief four-question survey was developed by Kroenke (2009) and has been established by Lowe (2010) as a valid and reliable measure of anxiety (prevalence of feeling “nervous, anxious, or on edge” and not being able to “stop or control worrying”) and depression (prevalence of feeling “down, depressed, or hopeless” and “little interest or pleasure in doing things”) over the past fourteen days. The response scale for each of the items are “not at all”, “several days”, “more than half the days”, and “nearly every day”. The scores for each of the four items are totaled to analyze overall mental health outcome, while the two conditions (depression, anxiety) can be summed and scored separately to analyze the severity of each condition. We also asked respondents to self-evaluate their overall mental health on a 5-point scale (“Excellent”, “Very Good”, “Good”, “Fair”, “Poor”). We conducted all of our statistical analyses in Stata.
 
 ## Collecting data from the Google API 
 
@@ -154,6 +126,8 @@ analysis_oq <- extract_sentiment_terms(oq_facebook$oq_facebook)
 senti_oq <- sentiment_by(oq_facebook$oq_facebook)
 oq_facebook$ave_sentiment=senti_oq$ave_sentiment
 
+
+# create a new variable from Facebook comments
 SentimentAnalysis_c <- c_facebook %>% mutate(senti_commentsFB = case_when(ave_sentiment < 0 ~ 'Negative',
                            ave_sentiment == 0 ~ 'Neutral',
                            TRUE ~ 'Positive'))
@@ -163,8 +137,7 @@ SentimentAnalysis_c <- SentimentAnalysis_c %>% mutate(Color = case_when(ave_sent
                            TRUE ~ 'Yellow'))
 SentimentAnalysis_c$word_count=senti_commentsFB$word_count
 
-
-
+# create a new variable from open-ended survey responses
 SentimentAnalysis_oq <- oq_facebook %>% mutate(senti_oq = case_when(ave_sentiment < 0 ~ 'Negative',
                            ave_sentiment == 0 ~ 'Neutral',
                            TRUE ~ 'Positive'))
@@ -173,7 +146,11 @@ SentimentAnalysis_oq <- SentimentAnalysis_oq %>% mutate(Color = case_when(ave_se
                            ave_sentiment == 0 ~ 'Blue',
                            TRUE ~ 'Yellow'))
 SentimentAnalysis_oq$word_count=senti_oq$word_count
+```
 
+
+```{r, include=FALSE}
+# Difference of means between Facebook comments and open-ended survey responses
 summary(SentimentAnalysis_c$ave_sentiment)
 summary(SentimentAnalysis_oq$ave_sentiment)
 t.test(SentimentAnalysis_c$ave_sentiment,SentimentAnalysis_oq$ave_sentiment) 
@@ -811,103 +788,3 @@ We then get the output for the clean word cloud.
 wordcloud(words = df_p$word_p, freq = df_p$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
 
 ```
-
-```{r, include=FALSE}
-
-# facebook comments wordcloud - negative
-wordcloud(words = df_n$word_n, freq = df_n$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-
-```
-
-
-```{r}
-# open-ended survey responses wordcloud - positive
-wordcloud(words = df_po$word_po, freq = df_po$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-```
-
-
-```{r}
-# open-ended survey responses wordcloud - negative
-wordcloudneg <- wordcloud(words = df_ne$word_ne, freq = df_ne$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-```
-
-
-## Results
-
-### Survey Findings
-
-In Table 1, we present the prevalence of reporting symptoms for anxiety and depression, depression, anxiety, as well as the percentage of respondents self-reporting  “Fair” or “Poor” mental health status. As Table 2 shows, a high percentage of the Burmese adult population show symptoms for anxiety and depression (60.71%), depression (61.39%), anxiety (58.02), fair or poor mental health status (69.15%). For comparison, using the same PHQ-4 measures and cutoff points, we find that the prevalence of anxiety and depression in the US during COVID-19 pandemic reached its highest level of 19% and 13%, respectively, in April 2020 (US data are from the Understanding America Study (UAS) Covid Tracking Survey: https://uasdata.usc.edu/index.php). 
- 
-
-Estimates from logistic regressions in Table 2, which can be found in our appendix, reveal variations in mental health outcome across subpopulation groups. The largest differences were found between individuals who trusted mostly or completely information sources affiliated with the Burmese military (MWD and SAC spokesperson) and individuals who didn’t trust them when it came to informing them about the current situations in Burma. Respondents who trusted mostly or completely the Burmese military-owned MWD TV Station were significantly less likely than respondents who didn’t trust MWD to report symptoms for (1) anxiety and repression (AOR=0.574; 95% CI=[0.370,0.889]; P<0.05), (2) depression (AOR=0.590; 95% CI=[0.383,0.908]; P<0.05), (3) anxiety (AOR=0.609; 95% CI=[0.390,0.951];P<0.05), (4) “Fair” or “Poor” mental health status (AOR=0.537; 95%CI=[0.349,0.825];P<0.01). Similarly, respondents who trusted mostly or completely the SAC spoken person were significantly less likely than respondents who didn’t trust the spoken person to report symptoms for (1) anxiety and repression (AOR=0.488; 95% CI=[0.296,0.804]; P<0.01), (2) depression (AOR=0.466; 95% CI=[0.285,0.762]; P<0.01), (3) anxiety (AOR=0.443; 95% CI=[0.264,0.743]; P<0.01), (4) “Fair” or “Poor” mental health status (AOR=0.327; 95% CI=[0.201,0.534]; P<0.01). Despite their relative mental health advantages, the prevalence rates for anxiety and depression, depression, anxiety were found to be still high among those who mostly or completely trusted MWD TV (27.46%, 29.53%, 24.87%, respectively) or SAC spoken person (24.00%, 26.29%, 19.43%, respectively).
-
-We also found large differences in mental health status by use of mobile service. Respondents who used the military-owned Mytel mobile services were significantly less likely than respondents who used MPT, Ooredoo, Telenor mobile services to report symptoms for (1) anxiety and depression (AOR=0.600; 95% CI=[0.504,0.714]; P<0.01), (2) depression (AOR=0.684;95% CI=[0.575,0.814]; P<0.01), (3) anxiety (AOR=0.680; 95% CI=[0.571,0.809]; P<0.01), (4) “Fair” or “Poor” mental health status (AOR=0.757; 95% CI=[0.632,0.906];P<0.01). Prevalence for anxiety and depression, depression, and anxiety among Mytel users were found to be 45.13%, 48.21%, and anxiety 44.39%, respectively.
-
-We also found small but statistically significant differences in mental health status by sociodemographic status. Specifically, females (compared to males), 25-30 age group (compared to 18-24 group), individuals with college degrees (compared to those with secondary education and below), salaried and unemployed individuals (compared to self-employed individuals) were found to have worse mental health outcomes. In contrast, 51+ age group (compared to 18-24 group), those with masters’ degrees and above (compared to those with secondary education and below), single persons (compared to married individuals), individuals from high income households (compared to those from low income households) were found to have better mental health outcomes and their differences seem to be statistically significant in most cases. 
-
-Overall, our results suggested that political affiliation was a strong predictor for mental health outcome: affiliation with the Burmese military was positively and significantly associated with better mental health among the Burmese adult population. This suggested that the military coup disproportionately and negatively affected the mental wellbeing of the Burmese civilian population. Our results also showed that the prevalence of anxiety and depression, anxiety, and depression were extremely high across all population subgroups, including those affiliated with the military regime. 
-
-
-
-```{r, include=FALSE}
-
-#creating table with output from Stata
-
-table1 <- matrix(c(60.71, 61.39, 58.02, 69.15), ncol = 4, byrow = TRUE)
-colnames(table1) <- c("Anxiety and Depression", "Depression", "Anxiety", "Fair or Poor")
-rownames(table1) <- c("Overall, %")
-table1 <- as.table(table1)
-
-print(table1)
-
-```
-
-### Google Trends and Sentiment Analysis of Textual Data
-
-The data we collected from the Google trends API established that the words military coup and sad saw the sharpest increase after the coup occurred in February 2021. For example, the word military coup did not appear to have search hits in January 2021 but this rate increased to 100 around February. The number of hits for the word sad varied across the months but remained relatively high throughout the analysis period. The words anxiety and depression were at their highest levels in the month of April with numbers fluctuating throughout the months that were examined. Our sentiment analysis revealed that the word democracy was the most commonly mentioned word for the positive sentiment while dictatorship was the most frequently mentioned word in the negative sentiment word cloud. Because of this, we decided to do a second Google trends API analysis to determine if we also saw an increase of searches for these two words. We found that there was an increase in searches for these two words, with the sharpest increase occurring at the time of the coup and immediately after and stabilizing as time went on.  
-
-```{r, include = FALSE}
-
-plot(res1)
-
-```
-```{r, include = FALSE}
-
-plot(res2)
-
-```
-Our findings regarding the sentiment analysis of textual data revealed the words that were associated with a negative sentiment and a positive sentiment along with which words were mentioned most frequently. As figure X displays, the words dictatorship, junta, bad, worried, war, difficult, and fall were the most commonly mentioned negative sentiment words. These findings allowed us to look at the responses and comments that contained these words and analyze the context of these. The textual data revealed that many respondents wanted the dictatorship/war to end or fall and that they were worried about their future (i.e., want to end the military dictatorship quickly - depressed; truly worried with the military coup; it was very difficult, I had to live and eat anxiously) Meanwhile, the words peace, democracy, support, quickly, peaceful, and peace were the most commonly mentioned words with a positive sentiment. It is important to note that although the sentiment analysis coded certain words as positive, we can assess that this was not the case once we look at the comments left by respondents. For example, comments that mentioned the word peaceful were asking for peace and were not stating that they were in a peaceful place (i.e., "I am very [happy] to answer this kind of survey. Each and everyone [in] Myanmar feels sad and suffers from the impacts of Military coup. May the dictators die. We want our democracy back. May Myanamr be peaceful. May all the people in the world [be] relieved from Covid-19"; "want to see Myanmar as a peaceful country", "I am not pleased as people have been displaced, wishing to restore democracy and become peaceful country quickly"; "we all have been struggling living under the military rules; want a peaceful life and wish to release Aunty Suu quickly"). 
-
-```{r, include = FALSE}
-
-wordcloud(words = df_po$word_po, freq = df_po$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-
-```
-```{r}
-# open-ended survey responses wordcloud - negative
-wordcloudneg <- wordcloud(words = df_ne$word_ne, freq = df_ne$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
-```
-
-
-
-
-## Discussion
-
-This project had two main goals. The first, was to determine if there was significant prevalence of anxiety and depression among the Burmese population after the military coup in February 2021. The second aim was to see how our survey data compared to Google trends data. Regarding our first research question, it was determined that a significant percentage of the population reported having depression, anxiety, a combination of both, and fair or poor mental health. The sentiment analysis conducted on the textual data collected from the open-ended response question and the comments on the Facebook advertisement showed that participants were apprehensive about their living situation and frequently mentioned the words dictatorship, worried, and difficult among others. It was also evident that although the sentiment analysis coded certain words as having a positive sentiment, that was not the case. After examining comments with words such as peace or democracy, it was noted that the context of these words was not positive as most of the comments were respondents asking for peace and democracy. 
-
-We used the findings of the sentiment analysis to include words such as dictatorship and democracy along with sad, military coup, depression, and anxiety to see whether there was an increase of searches for these words after the coup in early 2021. We found that there were increases in searches, although these varied depending on the word and stabilized at different times. 
-
-Our analysis led us to conclude that Google trends can reflect the findings of a survey to a limited extent, which is evident given the increase in searches for specific words that were measured in the survey and others that were mentioned in the textual data. This research has several limitations. First, our survey used a non-probability sample which makes it susceptible to measurement error, especially in underdeveloped countries such as Myanmar, where large percentages of the population do not have access to the internet. Second, a sentiment analysis was not able to gauge the context of certain words and therefore labeled words that are considered positive as having a positive sentiment even when they were found within a negative context. Researchers should be especially careful when reporting these sorts of results. Lastly, it is impossible to determine whether all of the Google searches were associated with the coup. Symptoms of depression and anxiety can also be associated with the pandemic or other life circumstances which are not reflected in our analysis. 
-
-Still, this project allowed us to quickly collect data from a large sample. Fast data collection is necessary after tragic events such as the coup in Myanmar, and this project showed that doing so is an efficient way to collect data and inform policies to help those affected by these events. Our findings also revealed that using online data in conjunction with survey data can be done in a manner that leads to findings that are more holistic by taking different methods into account. Future studies should look to incorporate other sources of online data such as Twitter data or Reddit data. A non-probability survey should also be made available to establish how much non-probability data compares to probability data in times of crisis. We encourage scholars to take advantage of the multiple data sources available and to use these in concurrence with survey data to further strengthen their findings. 
-
-## References
-
-1. Kreuter, F., N. Barkay, A. Bilinski, A. Bradford, S. Chiu, R. Eliat, J. Fan, T. Galili, D. Haimovich and     B. Kim (2020). Partnering with a global platform to inform research and public policy making. Survey        Research Methods.
-
-2. Kroenke, K., Spitzer, R. L., Williams, J. B., & Löwe, B. (2009). An ultra-brief screening scale for            anxiety and depression: the PHQ-4. Psychosomatics, 50(6), 613–621.         
-      https://doi.org/10.1176/appi.psy.50.6.613
-
-3. Löwe, B., Wahl, I., Rose, M., Spitzer, C., Glaesmer, H., Wingenfeld, K., Schneider, A., & Brähler, E.        (2010). A 4-item measure of depression and anxiety: validation and standardization of the Patient Health     Questionnaire-4 (PHQ-4) in the general population. Journal of affective disorders, 122(1-2), 86–95.         https://doi.org/10.1016/j.jad.2009.06.019
-
-4. Salomon, J. A., A. Reinhart, A. Bilinski, E. J. Chua, W. La Motte-Kerr, M. M. Rönn, M. B. Reitsma, K. A.     Morris, S. LaRocca, T. H. Farag, F. Kreuter, R. Rosenfeld and R. J. Tibshirani (2021). "The US COVID-19     Trends and Impact Survey: Continuous real-time measurement of COVID-19 symptoms, risks, protective          behaviors, testing, and vaccination." Proceedings of the National Academy of Sciences 118(51):              e2111454118.
