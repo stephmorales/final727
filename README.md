@@ -2,7 +2,7 @@
 title: "Assessing the Mental Health Consequences of the 2021 Military Coup in Burma"
 subtitle: "Fundamentals of Computing and Data Display"
 author: "Htay-Wah Saw, Nicolas Rodriguez, Stephanie Morales"
-date: December 16, 2021
+date: "`r Sys.Date()`"
 output:
   pdf_document:
     toc: yes
@@ -788,3 +788,94 @@ We then get the output for the clean word cloud.
 wordcloud(words = df_p$word_p, freq = df_p$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
 
 ```
+
+```{r, include=FALSE}
+
+# facebook comments wordcloud - negative
+wordcloud(words = df_n$word_n, freq = df_n$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+
+```
+
+
+```{r}
+# open-ended survey responses wordcloud - positive
+wordcloud(words = df_po$word_po, freq = df_po$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+```
+
+
+```{r}
+# open-ended survey responses wordcloud - negative
+wordcloudneg <- wordcloud(words = df_ne$word_ne, freq = df_ne$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+```
+
+## Results
+
+### Survey Findings
+
+In Table 1, we present the prevalence of reporting symptoms for anxiety and depression, depression, anxiety, as well as the percentage of respondents self-reporting  “Fair” or “Poor” mental health status. As Table 2 shows, a high percentage of the Burmese adult population show symptoms for anxiety and depression (60.71%), depression (61.39%), anxiety (58.02), fair or poor mental health status (69.15%). For comparison, using the same PHQ-4 measures and cutoff points, we find that the prevalence of anxiety and depression in the US during COVID-19 pandemic reached its highest level of 19% and 13%, respectively, in April 2020 (US data are from the Understanding America Study (UAS) Covid Tracking Survey: https://uasdata.usc.edu/index.php). A more detailed output is found in the appendix which includes the findings of the logistic regression in table 2. 
+
+
+```{r, include=FALSE}
+
+#creating table with output from Stata
+
+table1 <- matrix(c(60.71, 61.39, 58.02, 69.15), ncol = 4, byrow = TRUE)
+colnames(table1) <- c("Anxiety and Depression", "Depression", "Anxiety", "Fair or Poor")
+rownames(table1) <- c("Overall, %")
+table1 <- as.table(table1)
+
+print(table1)
+
+```
+
+### Google Trends and Sentiment Analysis of Textual Data
+
+The data we collected from the Google trends API established that the words military coup and sad saw the sharpest increase after the coup occurred in February 2021. For example, the word military coup did not appear to have search hits in January 2021 but this rate increased to 100 around February. The number of hits for the word sad varied across the months but remained relatively high throughout the analysis period. The words anxiety and depression were at their highest levels in the month of April with numbers fluctuating throughout the months that were examined. Our sentiment analysis revealed that the word democracy was the most commonly mentioned word for the positive sentiment while dictatorship was the most frequently mentioned word in the negative sentiment word cloud. Because of this, we decided to do a second Google trends API analysis to determine if we also saw an increase of searches for these two words. We found that there was an increase in searches for these two words, with the sharpest increase occurring at the time of the coup and immediately after and stabilizing as time went on.  
+
+```{r, include = FALSE}
+
+plot(res1)
+
+```
+
+
+```{r, include = FALSE}
+
+plot(res2)
+
+```
+Our findings regarding the sentiment analysis of textual data revealed the words that were associated with a negative sentiment and a positive sentiment along with which words were mentioned most frequently. As figure negatives displays, the words dictatorship, junta, bad, worried, war, difficult, and fall were the most commonly mentioned negative sentiment words. These findings allowed us to look at the responses and comments that contained these words and analyze the context of these. The textual data revealed that many respondents wanted the dictatorship/war to end or fall and that they were worried about their future (i.e., want to end the military dictatorship quickly - depressed; truly worried with the military coup; it was very difficult, I had to live and eat anxiously) Meanwhile, the words peace, democracy, support, quickly, peaceful, and peace were the most commonly mentioned words with a positive sentiment. It is important to note that although the sentiment analysis coded certain words as positive, we can assess that this was not the case once we look at the comments left by respondents. For example, comments that mentioned the word peaceful were asking for peace and were not stating that they were in a peaceful place (i.e., "I am very [happy] to answer this kind of survey. Each and everyone [in] Myanmar feels sad and suffers from the impacts of Military coup. May the dictators die. We want our democracy back. May Myanmar be peaceful. May all the people in the world [be] relieved from Covid-19"; "want to see Myanmar as a peaceful country", "I am not pleased as people have been displaced, wishing to restore democracy and become peaceful country quickly"; "we all have been struggling living under the military rules; want a peaceful life and wish to release Aunty Suu quickly"). Finally, we observe no differences between Facebook comments sentiment scores and open-ended survey responses sentiment scores (p-value = 0.3265). However, open-ended survey responses scores have a higher variance (0.12)  than Facebook comments scores (0.04). In open-ended survey responses negative, for example, we see statements intensified such as "absolutely disgusting", "total disaster", and "very depressed".
+
+```{r, include = FALSE}
+
+wordcloud(words = df_po$word_po, freq = df_po$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+
+```
+```{r}
+# open-ended survey responses wordcloud - negative
+wordcloudneg <- wordcloud(words = df_ne$word_ne, freq = df_ne$x, min.freq = 2, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(8, "Dark2"))
+```
+
+
+
+
+## Discussion
+
+This project had two main goals. The first, was to determine if there was significant prevalence of anxiety and depression among the Burmese population after the military coup in February 2021. The second aim was to see how our survey data compared to Google trends data. Regarding our first research question, it was determined that a significant percentage of the population reported having depression, anxiety, a combination of both, and fair or poor mental health. The sentiment analysis conducted on the textual data collected from the open-ended response question and the comments on the Facebook advertisement showed that participants were apprehensive about their living situation and frequently mentioned the words dictatorship, worried, and difficult among others. It was also evident that although the sentiment analysis coded certain words as having a positive sentiment, that was not the case. After examining comments with words such as peace or democracy, it was noted that the context of these words was not positive as most of the comments were respondents asking for peace and democracy. 
+
+We used the findings of the sentiment analysis to include words such as dictatorship and democracy along with sad, military coup, depression, and anxiety to see whether there was an increase of searches for these words after the coup in early 2021. We found that there were increases in searches, although these varied depending on the word and stabilized at different times. 
+
+Our analysis led us to conclude that Google trends can reflect the findings of a survey to a limited extent, which is evident given the increase in searches for specific words that were measured in the survey and others that were mentioned in the textual data. This research has several limitations. First, our survey used a non-probability sample which makes it susceptible to measurement error, especially in underdeveloped countries such as Myanmar, where large percentages of the population do not have access to the internet. Second, a sentiment analysis was not able to gauge the context of certain words and therefore labeled words that are considered positive as having a positive sentiment even when they were found within a negative context. Researchers should be especially careful when reporting these sorts of results. Lastly, it is impossible to determine whether all of the Google searches were associated with the coup. Symptoms of depression and anxiety can also be associated with the pandemic or other life circumstances which are not reflected in our analysis. 
+
+Still, this project allowed us to quickly collect data from a large sample. Fast data collection is necessary after tragic events such as the coup in Myanmar, and this project showed that doing so is an efficient way to collect data and inform policies to help those affected by these events. Our findings also revealed that using online data in conjunction with survey data can be done in a manner that leads to findings that are more holistic by taking different methods into account. Future studies should look to incorporate other sources of online data such as Twitter data or Reddit data. A non-probability survey should also be made available to establish how much non-probability data compares to probability data in times of crisis. We encourage scholars to take advantage of the multiple data sources available and to use these in concurrence with survey data to further strengthen their findings. 
+
+## References
+
+1. Kreuter, F., N. Barkay, A. Bilinski, A. Bradford, S. Chiu, R. Eliat, J. Fan, T. Galili, D. Haimovich and     B. Kim (2020). Partnering with a global platform to inform research and public policy making. Survey        Research Methods.
+
+2. Kroenke, K., Spitzer, R. L., Williams, J. B., & Löwe, B. (2009). An ultra-brief screening scale for            anxiety and depression: the PHQ-4. Psychosomatics, 50(6), 613–621.         
+      https://doi.org/10.1176/appi.psy.50.6.613
+
+3. Löwe, B., Wahl, I., Rose, M., Spitzer, C., Glaesmer, H., Wingenfeld, K., Schneider, A., & Brähler, E.        (2010). A 4-item measure of depression and anxiety: validation and standardization of the Patient Health     Questionnaire-4 (PHQ-4) in the general population. Journal of affective disorders, 122(1-2), 86–95.         https://doi.org/10.1016/j.jad.2009.06.019
+
+4. Salomon, J. A., A. Reinhart, A. Bilinski, E. J. Chua, W. La Motte-Kerr, M. M. Rönn, M. B. Reitsma, K. A.     Morris, S. LaRocca, T. H. Farag, F. Kreuter, R. Rosenfeld and R. J. Tibshirani (2021). "The US COVID-19     Trends and Impact Survey: Continuous real-time measurement of COVID-19 symptoms, risks, protective          behaviors, testing, and vaccination." Proceedings of the National Academy of Sciences 118(51):              e2111454118.
