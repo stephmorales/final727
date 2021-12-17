@@ -2,7 +2,7 @@
 title: "Assessing the Mental Health Consequences of the 2021 Military Coup in Burma"
 subtitle: "Fundamentals of Computing and Data Display"
 author: "Htay-Wah Saw, Nicolas Rodriguez, Stephanie Morales"
-date: "`r Sys.Date()`"
+date: December 16, 2021
 output:
   pdf_document:
     toc: yes
